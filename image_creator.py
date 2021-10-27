@@ -19,10 +19,12 @@ def generate_image(dna_path):
     for i in range(image_dimensions[1]):
         for j in range(image_dimensions[0]):
             image_array[j][i] = [255, 255, 255]
-    print("Initial map: ")
-    print(image_array)
     cursor_position = [0, 0]
 
+    # Images Array
+    images = []
+
+    index = 0
     # Process DNA
     for c in dna:
         # MOVE OPERATORS
@@ -51,12 +53,28 @@ def generate_image(dna_path):
         # PAINT OPERATORS
         if c == 'p':
             image_array[new_cursor_y, new_cursor_x] = [0, 0, 0]
-        elif c == 'u':
+        elif c == 'e':
+            print("Cell painted to white.")
             image_array[new_cursor_y, new_cursor_x] = [255, 255, 255]
+
+        # If paint operation done append to array
+        if c == 'p' or c == 'e':
+            images.append(Image.fromarray(image_array))
+            index += 1
+
+    # STATIONARY IMAGE START
+    '''
     # Create a PIL image
     img = Image.fromarray(image_array)
     img.show()
-    print("Showing image.")
+    '''
+    # STATIONARY IMAGE END
+    print("Will save GIF | Frame Count: " + str(index))
+    # Save GIF
+    images[0].save('./out/output.gif',
+                   save_all=True, append_images=images[1:], optimize=False, duration=10, loop=0)
+    # Save Stationary Version
+    images[-1].save('./out/output.png')
 
 
 generate_image('./gen0_dnas/0.txt')

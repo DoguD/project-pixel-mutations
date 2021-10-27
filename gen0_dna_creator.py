@@ -18,4 +18,4 @@ def save_dna_to_file(path, dna):
         f.close()
 
 
-save_dna_to_file('./gen0_dnas/0.txt', generate_dna(1000000, ['u','d','l','r','p','u']))
+save_dna_to_file('./gen0_dnas/0.txt', generate_dna(2**15, ['u','d','l','r','p']))
